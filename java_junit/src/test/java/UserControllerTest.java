@@ -15,7 +15,7 @@ public class UserControllerTest {
     public static class BaseBefore {
         protected  static DataBase con;
         @Before
-        public void setUp() throws SQLException, ClassNotFoundException {
+        public void setUp() {
             this.con = new DataBase();
             con.execute("delete from user;");
         }
@@ -25,7 +25,7 @@ public class UserControllerTest {
     public static class SearchMethod extends BaseBefore {
 
         @Before
-        public void setup() throws SQLException {
+        public void setup() {
             con.execute("insert into user (name, age) values ('kanai', '28');");
             con.execute("insert into user (name, age) values ('daiki', '28');");
             con.execute("insert into user (name, age) values ('daiki', '29');");
