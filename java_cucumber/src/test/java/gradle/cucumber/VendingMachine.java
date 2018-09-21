@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class VendingMachine {
+    private final Menu menu = new Menu();
     private int charge;
-    public List<String> drinks = new ArrayList<String>();
+    public List<Drink> drinks = new ArrayList<Drink>();
 
     public VendingMachine charge(Integer money) {
         if (canUseMoney(money)) {
@@ -29,24 +30,29 @@ public class VendingMachine {
     }
 
     public void addDrink(String name, Integer number) {
-        this.drinks.add(name);
+        this.drinks.add(new Drink(name));
     }
 
     public void buy(String name) {
-        if(name.equals("コーラ")) {
-            charge = charge - 120;
-        } else if(name.equals("お茶")) {
-            charge = charge - 150;
-        }
-        this.drinks.remove(0);
-        reduceInventoryBy(name);
-    }
-
-    private void reduceInventoryBy(String name) {
-        drinks.remove(name);
+        charge = charge - menu.priceBy(name);
+        drinks.remove(new Drink(name));
     }
 
     public int inventorySizeBy(String name) {
-        return (int) drinks.stream().filter(drink->drink.equals(name)).count();
+        return (int) drinks.stream().filter(drink->drink.name.equals(name)).count();
+    }
+
+    private class Drink {
+        private final String name;
+
+        public Drink(String name) {
+            this.name = name;
+        }
+
+        public boolean equals(Object obj) {
+            Drink drink = (Drink) obj;
+            return drink.name.equals(name);
+        }
+
     }
 }
