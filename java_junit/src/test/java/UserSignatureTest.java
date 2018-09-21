@@ -1,18 +1,21 @@
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
-public class UserSignatureTest {
+
+class UserSignatureTest {
 
     @Nested
-    public static class ユーザの妥当性検証 {
-        static List<Fixture> patterns() {
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    class ユーザの妥当性検証 {
+        List<Fixture> patterns() {
             return Arrays.asList(
                     new Fixture("password", true),
                     new Fixture("passwor", false)
@@ -30,7 +33,7 @@ public class UserSignatureTest {
             assertThat(pattern.expected, is(actual));
         }
 
-        private static class Fixture {
+        class Fixture {
             private String password;
             private boolean expected;
             public Fixture(String password, boolean expected) {
@@ -39,7 +42,7 @@ public class UserSignatureTest {
             }
         }
 
-        private class UserBuilder {
+        class UserBuilder {
             private String password;
             public UserBuilder setPassword(String password) {
                 this.password = password;
@@ -52,9 +55,10 @@ public class UserSignatureTest {
     }
 
     @Nested
-    public static class 署名の取得 {
+    @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+    class 署名の取得 {
 
-        static UserDataBuilder[] patterns() {
+        UserDataBuilder[] patterns() {
             return new UserDataBuilder[]{
                     new UserDataBuilder().setExpected("tanaka: PD OK"),
                     new UserDataBuilder().setName("yamada").setExpected("yamada: PD OK"),
@@ -66,7 +70,7 @@ public class UserSignatureTest {
 
         @ParameterizedTest
         @MethodSource("patterns")
-        public void 署名取得パターン(UserDataBuilder pattern) {
+        void 署名取得パターン(UserDataBuilder pattern) {
             //given
             User user = new User(pattern.name, pattern.companyName, pattern.password);
             //when
@@ -75,28 +79,28 @@ public class UserSignatureTest {
             assertThat(pattern.expected, is(actual));
         }
 
-        private static class UserDataBuilder {
+        class UserDataBuilder {
             private String name = "tanaka";
             private String companyName = "PD";
             private String password = "password";
             private String expected;
 
-            public UserDataBuilder setName(String name) {
+            UserDataBuilder setName(String name) {
                 this.name = name;
                 return this;
             }
 
-            public UserDataBuilder setCompanyName(String companyName) {
+            UserDataBuilder setCompanyName(String companyName) {
                 this.companyName = companyName;
                 return this;
             }
 
-            public UserDataBuilder setPassord(String s) {
+            UserDataBuilder setPassord(String s) {
                 this.password = s;
                 return this;
             }
 
-            public UserDataBuilder setExpected(String s) {
+            UserDataBuilder setExpected(String s) {
                 this.expected = s;
                 return this;
             }
