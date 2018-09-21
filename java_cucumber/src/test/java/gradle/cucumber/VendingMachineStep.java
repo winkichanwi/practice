@@ -3,6 +3,7 @@ package gradle.cucumber;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import io.cucumber.datatable.DataTable;
 
 import static org.junit.Assert.assertEquals;
 
@@ -23,6 +24,13 @@ public class VendingMachineStep {
     @When("{int}円を入金")
     public void 円を入金(Integer money) {
         vm.charge(money);
+    }
+
+    @When("以下のお金を入金")
+    public void 以下のお金を入金(DataTable dataTable) {
+        dataTable.asLists().forEach(data->{
+            vm.charge(Integer.valueOf(data.get(0)));
+        });
     }
 
     @Then("{int}円が入金されている")
