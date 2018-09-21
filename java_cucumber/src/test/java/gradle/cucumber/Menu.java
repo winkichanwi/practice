@@ -13,7 +13,7 @@ public class Menu {
         map.put("お茶", 150);
     }
 
-    Integer priceBy(String name) {
+    public Integer priceBy(String name) {
         return map.get(name);
     }
 }
