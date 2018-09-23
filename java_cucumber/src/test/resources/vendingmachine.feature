@@ -35,12 +35,12 @@ Feature: 自動販売機
 
   Scenario Outline: 購入できる
     Given 500円を入金
-    When "<name>"を購入
-    Then "<name>"の在庫が0個
-    And <change>円が入金されている
+    When "<名前>"を購入
+    Then "<名前>"の在庫が0個
+    And <お釣り>円が入金されている
 
     Examples:
-        |name|change|
+        |名前|お釣り|
         |コーラ|380|
         |お茶  |350|
 
