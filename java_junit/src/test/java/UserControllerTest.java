@@ -11,6 +11,8 @@ import static org.junit.Assert.assertEquals;
 
 public class UserControllerTest {
 
+        // user table: id, name, age
+
         @Test
         public void create() {
             //given
