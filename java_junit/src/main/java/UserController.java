@@ -3,13 +3,21 @@ import java.util.Map;
 
 
 public class UserController {
+    private DataBase con = new DataBase();
+
     public void create(Map<String, String> params) {
-        DataBase con = new DataBase();
         con.execute("insert into user (name, age) values ('" + params.get("name") + "', " + params.get("age") + ")");
     }
 
     public List search(int age) {
-        DataBase con = new DataBase();
         return con.find("select * from user where age = " + age +  ";");
+    }
+
+    public List<Map> searchName(String name) {
+        return con.find("select * from user where name = '" + name + "';");
+    }
+
+    public List<Map> searchNameAndAge(String name, int age) {
+        return con.find("select * from user where name = '" + name + "' and age = " + age + ";");
     }
 }
